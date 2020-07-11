@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'branch',
     'customer',
     'loan',
+    'djmoney',
 ]
 
 MIDDLEWARE = [
