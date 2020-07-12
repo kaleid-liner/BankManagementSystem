@@ -1,13 +1,106 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}
 KBMS | Add Customer
 {% endblock %}
 
 {% block content %}
-<form method="post">
+<div class="container p-5">
+  <div class="row">
+  <form method="post" class="col-md-8">
+    {{ form.non_field_errors }}
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="提交">
-</form>
+    <h4 class="mb-3">个人信息</h4>
+    <div class="mb-3">
+      {{ form.card_id.errors }}
+      <label for="id_card_id">身份证号</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+        </div>
+        <input type="text" class="form-control" id="id_card_id" name="card_id" required="" maxlength="18"
+               value="{{ form.card_id.value | default_if_none:'' }}" {% if is_update %}readonly="readonly"{% endif %}>
+      </div>
+    </div>
+    <div class="mb-3">
+      {{ form.name.errors }}
+      <label for="id_name">姓名</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">@</span>
+        </div>
+        <input type="text" class="form-control" id="id_name" name="name" required="" maxlength="64"
+               value="{{ form.name.value | default_if_none:'' }}" {% if is_update %}readonly="readonly"{% endif %}>
+      </div>
+    </div>
+    <div class="mb-3">
+      {{ form.phone_number.errors }}
+      <label for="id_phone_number">电话号码</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+        </div>
+        <input type="text" class="form-control" id="id_phone_number" name="phone_number" required="" maxlength="64"
+               value="{{ form.phone_number.value | default_if_none:'' }}">
+      </div>
+    </div>
+    <div class="mb-4">
+      {{ form.address.errors }}
+      <label for="id_address">地址</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+        </div>
+        <input type="text" class="form-control" id="id_address" name="address" required="" maxlength="256"
+               value="{{ form.address.value | default_if_none:'' }}">
+      </div>
+    </div>
+    <hr class="mb-4">
+    <h4 class="mb-3">联系人信息</h4>
+    <div class="mb-3">
+      {{ form.contact_name.errors }}
+      <label for="id_contact_name">姓名</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">@</span>
+        </div>
+        <input type="text" class="form-control" id="id_contact_name" name="contact_name" required="" maxlength="64"
+               value="{{ form.contact_name.value | default_if_none:'' }}">
+      </div>
+    </div>
+    <div class="mb-3">
+      {{ form.contact_phone_number.errors }}
+      <label for="id_contact_phone_number">电话号码</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+        </div>
+        <input type="text" class="form-control" id="id_contact_phone_number" name="contact_phone_number" required="" maxlength="64"
+               value="{{ form.contact_phone_number.value | default_if_none:'' }}">
+      </div>
+    </div>
+    <div class="mb-3">
+      {{ form.contact_email.errors }}
+      <label for="id_contact_email">邮箱</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+        </div>
+        <input type="email" class="form-control" id="id_contact_email" name="contact_email" required="" maxlength="64"
+               value="{{ form.contact_email.value | default_if_none:'' }}">
+      </div>
+    </div>
+    <div class="mb-4">
+      {{ form.contact_relationship.errors }}
+      <label for="id_contact_relationship">和您的关系是？</label>
+      <input type="text" class="form-control" id="id_contact_relationship" name="contact_relationship" required="" maxlength="64"
+             value="{{ form.contact_relationship.value | default_if_none:'' }}">
+    </div>
+    <hr class="mb-4">
+    <button class="btn btn-primary btn-block" type="submit">保存</button>
+  </form>
+  </div>
+</div>
 {% endblock %}

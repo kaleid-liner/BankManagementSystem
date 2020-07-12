@@ -13,15 +13,31 @@
     <title>{% block title %}KBMS{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">KBMS</a>
-      <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
-        </li>
-      </ul>
-    </nav>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="/">KBMS</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav"
+    aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="mainNav">
+    <span class="mr-auto"></span>
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+      {% block navbar %}{% endblock %}
+    </ul>
+    <!-- Links -->
+
+  </div>
+  <!-- Collapsible content -->
+
+  </nav>
 
     <div class="container-fluid">
       <div class="row">
