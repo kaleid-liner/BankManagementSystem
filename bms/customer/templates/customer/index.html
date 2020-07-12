@@ -30,10 +30,10 @@ KBMS | Customer
         <td>{{ customer.phone_number }}</td>
         <td>{{ customer.address }}</td>
         <td>{{ customer.contact_name }}</td>
-        <td><a href="{% url 'customer:update' customer.pk %}">更新</a> |
+        <td><a href="{% url 'customer:update' customer.pk %}"><i class="fas fa-info-circle"></i></a> |
             <a class="open-modal" data-target="#deleteModal" data-toggle="modal"
                data-url="{% url 'customer:delete' customer.pk %}"
-               data-customer_name="{{ customer.name }}">删除</a></td>
+               data-customer_name="{{ customer.name }}"><i class="fas fa-trash"></i></a></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -64,8 +64,14 @@ KBMS | Customer
 {% block script %}
 <script>
     $(document).ready(function () {
-        $('#customerTable').DataTable();
-        $('.dataTables_length').addClass('bs-select');
+      $('#customerTable').DataTable({
+        "aaSorting": [],
+        columnDefs: [{
+          orderable: false,
+          targets: 5
+        }]
+      });
+      $('.dataTables_length').addClass('bs-select');
     });
 
     $(document).on("click", ".open-modal", function () {
