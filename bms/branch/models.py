@@ -11,7 +11,6 @@ class Branch(models.Model):
 class Department(models.Model):
     name = models.CharField(max_length=128)
     type = models.CharField(max_length=32)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
 
 class StaffInfo(models.Model):
@@ -20,6 +19,7 @@ class StaffInfo(models.Model):
     phone_number = models.CharField(max_length=64)
     address = models.CharField(max_length=256)
     date_joined = models.DateField(auto_now_add=True)
+    branch = models.ForeignKey(Branch, related_name='%(class)ss', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         abstract = True
