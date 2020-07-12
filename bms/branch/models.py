@@ -4,7 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 class Branch(models.Model):
-    name = models.CharField(max_length=128, primary_key=True)
+    name = models.CharField(max_length=128, unique=True)
     city = models.CharField(max_length=256)
 
 
