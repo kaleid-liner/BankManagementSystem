@@ -7,10 +7,16 @@ class Branch(models.Model):
     name = models.CharField(max_length=128, unique=True)
     city = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
+
 
 class Department(models.Model):
     name = models.CharField(max_length=128)
     type = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
 
 
 class StaffInfo(models.Model):
@@ -20,6 +26,9 @@ class StaffInfo(models.Model):
     address = models.CharField(max_length=256)
     date_joined = models.DateField(auto_now_add=True)
     branch = models.ForeignKey(Branch, related_name='%(class)ss', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return '{}#{}'.format(self.name, self.pk)
 
     class Meta:
         abstract = True

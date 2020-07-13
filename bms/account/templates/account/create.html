@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load bootstrap4 %}
+
 {% block title %}
 KBMS | Add Account
 {% endblock %}
@@ -17,7 +19,7 @@ KBMS | Add Account
         <label for="id_balance">余额</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+            <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
           </div>
           {{ form.balance }}
         </div>
@@ -27,7 +29,7 @@ KBMS | Add Account
         <label for="id_branch">支行</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+            <span class="input-group-text"><i class="fas fa-building"></i></span>
           </div>
           {{ form.branch }}
         </div>
@@ -37,7 +39,7 @@ KBMS | Add Account
         <label for="id_manager">经理</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
           </div>
           {{ form.manager }}
         </div>
@@ -50,7 +52,7 @@ KBMS | Add Account
         <label for="id_overdraft">透支额</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+            <span class="input-group-text"><i class="fas fa-money-check"></i></span>
           </div>
           {{ form.overdraft }}
         </div>
@@ -61,7 +63,7 @@ KBMS | Add Account
         <label for="id_interest_rate">利率</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+            <span class="input-group-text"><i class="fas fa-chart-line"></i></span>
           </div>
           {{ form.interest_rate }}
         </div>

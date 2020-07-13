@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'customer',
     'loan',
     'djmoney',
-    'crispy_forms',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

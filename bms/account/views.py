@@ -3,6 +3,7 @@ from .models import SavingAccount, CheckingAccount
 from django.views import generic
 from customer.models import Customer
 from django.urls import reverse, reverse_lazy
+from .forms import CheckingAccountForm, SavingAccountForm
 
 
 # Create your views here.
@@ -18,11 +19,6 @@ class AccountListView(generic.TemplateView):
 
 class BaseAccountCreateView(generic.CreateView):
     template_name = 'account/create.html'
-    fields = [
-        'balance',
-        'branch',
-        'manager',
-    ]
     account_type = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -46,25 +42,13 @@ class BaseAccountCreateView(generic.CreateView):
 
 
 class CheckingAccountCreateView(BaseAccountCreateView):
-    model = CheckingAccount
-    fields = [
-        'balance',
-        'branch',
-        'manager',
-        'overdraft',
-    ]
     account_type = 'checking'
+    form_class = CheckingAccountForm
 
 
 class SavingAccountCreateView(BaseAccountCreateView):
-    model = SavingAccount
-    fields = [
-        'balance',
-        'branch',
-        'manager',
-        'interest_rate',
-    ]
     account_type = 'saving'
+    form_class = SavingAccountForm
 
 
 class SavingAccountDeleteView(generic.DeleteView):
@@ -95,21 +79,11 @@ class AccountUpdateView(generic.UpdateView):
 
 class SavingAccountUpdateView(AccountUpdateView):
     model = SavingAccount
-    fields = [
-        'balance',
-        'branch',
-        'manager',
-        'interest_rate',
-    ]
+    form_class = SavingAccountForm
     account_type = 'saving'
 
 
 class CheckingAccountUpdateView(AccountUpdateView):
     model = CheckingAccount
-    fields = [
-        'balance',
-        'branch',
-        'manager',
-        'overdraft',
-    ]
+    form_class = CheckingAccountForm
     account_type = 'checking'

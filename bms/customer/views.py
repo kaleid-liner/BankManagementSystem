@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Customer
 from django.urls import reverse_lazy
+from account.models import SavingAccount, CheckingAccount
 
 
 # Create your views here.
@@ -50,4 +51,7 @@ class CustomerUpdateView(generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_update'] = True
+        context['saving_account_list'] = self.object.savingaccounts.all()
+        context['checking_account_list'] = self.object.checkingaccounts.all()
+
         return context

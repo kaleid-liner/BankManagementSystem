@@ -95,11 +95,17 @@ KBMS | Account
     $('#savingAccountTable').DataTable({
       "aaSorting": [],
       columnDefs: [{
-          orderable: false,
-          targets: 6
+        orderable: false,
+        targets: 6
       }]
     });
-    $('#checkingAccountTable').DataTable();
+    $('#checkingAccountTable').DataTable({
+      "aaSorting": [],
+      columnDefs: [{
+        orderable: false,
+        targets: 6
+      }]
+    });
     $('.dataTables_length').addClass('bs-select');
   });
 
