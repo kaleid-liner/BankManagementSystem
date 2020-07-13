@@ -17,7 +17,6 @@ class Account(models.Model):
 
 
 class SavingAccount(Account):
-    currency_type = models.CharField(max_length=16)
     interest_rate = models.FloatField()
 
 

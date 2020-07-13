@@ -47,12 +47,6 @@ class CustomerUpdateView(generic.UpdateView):
     ]
     success_url = reverse_lazy('customer:index')
 
-    def clean_card_id(self):
-        return self.initial['card_id']
-
-    def clean_name(self):
-        return self.initial['name']
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_update'] = True

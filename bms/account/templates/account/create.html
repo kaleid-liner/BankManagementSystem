@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+KBMS | Add Account
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <form method="post" class="col-md-8">
+      {{ form.non_field_errors }}
+      {{ form.customer.errors }}
+      {% csrf_token %}
+      <h4 class="mb-3">基本信息</h4>
+      <div class="mb-3">
+        {{ form.balance.errors }}
+        <label for="id_balance">余额</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+          </div>
+          {{ form.balance }}
+        </div>
+      </div>
+      <div class="mb-3">
+        {{ form.branch.errors }}
+        <label for="id_branch">支行</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+          </div>
+          {{ form.branch }}
+        </div>
+      </div>
+      <div class="mb-4">
+        {{ form.manager.errors }}
+        <label for="id_manager">经理</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+          </div>
+          {{ form.manager }}
+        </div>
+      </div>
+      <hr class="mb-4">
+      <h4 class="mb-3">账户额外信息</h4>
+      {% if account_type == 'checking' %}
+      <div class="mb-4">
+        {{ form.overdraft.errors }}
+        <label for="id_overdraft">透支额</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+          </div>
+          {{ form.overdraft }}
+        </div>
+      </div>
+      {% else %}
+      <div class="mb-4">
+        {{ form.interest_rate.errors }}
+        <label for="id_interest_rate">利率</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-map-marker"></i></span>
+          </div>
+          {{ form.interest_rate }}
+        </div>
+      </div>
+      {% endif %}
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-block" type="submit">保存</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
