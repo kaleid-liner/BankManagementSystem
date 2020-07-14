@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'loan',
     'djmoney',
     'bootstrap4',
+    'chartjs',
 ]
 
 MIDDLEWARE = [

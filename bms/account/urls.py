@@ -11,4 +11,5 @@ urlpatterns = [
     path('saving/delete/<int:pk>', views.SavingAccountDeleteView.as_view(), name='saving_delete'),
     path('checking/update/<int:pk>', views.CheckingAccountUpdateView.as_view(), name='checking_update'),
     path('saving/update/<int:pk>', views.SavingAccountUpdateView.as_view(), name='saving_update'),
+    path('saving/chartjs', views.SavingAccountChartView.as_view(), name='saving_chart')
 ]

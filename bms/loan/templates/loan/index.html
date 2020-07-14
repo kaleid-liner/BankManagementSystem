@@ -11,12 +11,14 @@
 {% endblock %}
 
 {% block content %}
-<table id="loanTable" class="table table-striped table-sm">
+<h2>贷款记录</h2>
+<table id="loanTable" class="table table-striped table-sm"
+       data-toggle="table" data-search="true" data-pagination="true">
   <thead>
   <tr>
-    <th>总额</th>
-    <th>支行</th>
-    <th>状态</th>
+    <th data-sortable="true">总额</ths>
+    <th data-sortable="true">支行</ths>
+    <th data-sortable="true">状态</ths>
     <th>操作</th>
   </tr>
   </thead>
@@ -107,6 +109,7 @@
             <div class="input-group">
               {{ form.customers }}
             </div>
+          </div>
         </form>
 
       </div>
@@ -120,17 +123,6 @@
 
 {% block script %}
 <script>
-  $(document).ready(function () {
-    $('#loanTable').DataTable({
-      "aaSorting": [],
-      columnDefs: [{
-        orderable: false,
-        targets: 3
-      }]
-    });
-    $('.dataTables_length').addClass('bs-select');
-  });
-
   $(document).on("click", ".open-delete-modal", function () {
     let url = $(this).data('url');
     $('#deleteForm').attr('action', url);
