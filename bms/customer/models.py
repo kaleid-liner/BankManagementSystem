@@ -12,3 +12,6 @@ class Customer(models.Model):
     contact_phone_number = models.CharField(max_length=64)
     contact_email = models.EmailField()
     contact_relationship = models.CharField(max_length=64)
+
+    def __str__(self):
+        return '{}#{}'.format(self.name, self.pk)

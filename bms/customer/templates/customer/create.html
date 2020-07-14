@@ -114,7 +114,7 @@ KBMS | Add Customer
   {% if is_update %}
   <div class="col-md-6">
     <h2>储蓄账户</h2>
-    <table id="savingAccountTable" class="table table-striped table-bordered table-sm">
+    <table id="savingAccountTable" class="table table-striped table-sm">
       <thead>
       <tr>
         <th>余额</th>
@@ -143,7 +143,7 @@ KBMS | Add Customer
     </table>
 
     <h2>支票账户</h2>
-    <table id="checkingAccountTable" class="table table-striped table-bordered table-sm">
+    <table id="checkingAccountTable" class="table table-striped table-sm mb-5">
       <thead>
       <tr>
         <th>余额</th>
@@ -166,6 +166,38 @@ KBMS | Add Customer
           <a class="open-modal" data-target="#deleteModal" data-toggle="modal"
              data-url="{% url 'account:checking_delete' account.pk %}"
              data-customer_name="{{ account.customer.name }}"><i class="fas fa-trash"></i></a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <hr class="mb-5">
+
+    <h2>贷款</h2>
+    <table id="loanTable" class="table table-striped table-sm">
+      <thead>
+      <tr>
+        <th>总额</th>
+        <th>支行</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for loan in loan_list %}
+      <tr>
+        <td>{{ loan.amount }}</td>
+        <td>{{ loan.branch.name }}</td>
+        <td>
+          {% if loan.status == 'empty' %}
+          未开始发放
+          {% elif loan.status == 'full' %}
+          已全部发放
+          {% else %}
+          发放中
+          {% endif %}
+        </td>
+        <td></td>
       </tr>
       {% endfor %}
       </tbody>
@@ -199,24 +231,6 @@ KBMS | Add Customer
 
 {% block script %}
 <script>
-  $(document).ready(function () {
-    $('#savingAccountTable').DataTable({
-      "aaSorting": [],
-      columnDefs: [{
-        orderable: false,
-        targets: 6
-      }]
-    });
-    $('#checkingAccountTable').DataTable({
-      "aaSorting": [],
-      columnDefs: [{
-        orderable: false,
-        targets: 6
-      }]
-    });
-    $('.dataTables_length').addClass('bs-select');
-  });
-
   $(document).on("click", ".open-modal", function () {
     let customerName = $(this).data('customer_name');
     let url = $(this).data('url');

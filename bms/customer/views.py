@@ -53,5 +53,6 @@ class CustomerUpdateView(generic.UpdateView):
         context['is_update'] = True
         context['saving_account_list'] = self.object.savingaccounts.all()
         context['checking_account_list'] = self.object.checkingaccounts.all()
+        context['loan_list'] = self.object.loans.all()
 
         return context
