@@ -67,8 +67,11 @@ class LoanChartView(BaseLineChartView):
         self.loans = Loan.objects.all()
         self.branches = Branch.objects.all()
 
-        min_year = LoanPayment.objects.earliest('date').date.year
-        max_year = LoanPayment.objects.latest('date').date.year
+        try:
+            min_year = LoanPayment.objects.earliest('date').date.year
+            max_year = LoanPayment.objects.latest('date').date.year
+        except:
+            min_year = max_year = 0
         self.years = list(range(min_year, max_year + 1))
 
         return super().dispatch(request, *args, **kwargs)

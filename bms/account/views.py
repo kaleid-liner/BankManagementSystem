@@ -5,8 +5,9 @@ from customer.models import Customer
 from django.urls import reverse, reverse_lazy
 from .forms import CheckingAccountForm, SavingAccountForm
 from chartjs.views.lines import BaseLineChartView
-from django.db.models import Sum
+from django.db.models import Sum, ObjectDoesNotExist
 from branch.models import Branch
+import datetime
 
 
 # Create your views here.
@@ -99,8 +100,11 @@ class SavingAccountChartView(BaseLineChartView):
         self.accounts = SavingAccount.objects.all()
         self.branches = Branch.objects.all()
 
-        min_year = SavingAccount.objects.earliest('date_opened').date_opened.year
-        max_year = SavingAccount.objects.latest('date_opened').date_opened.year
+        try:
+            min_year = SavingAccount.objects.earliest('date_opened').date_opened.year
+            max_year = SavingAccount.objects.latest('date_opened').date_opened.year
+        except ObjectDoesNotExist:
+            min_year = max_year = 0
         self.years = list(range(min_year, max_year + 1))
 
         return super().dispatch(request, *args, **kwargs)

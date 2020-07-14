@@ -2,6 +2,7 @@ from django.db import models
 from branch.models import Branch
 from djmoney.models.fields import MoneyField
 from customer.models import Customer
+import datetime
 
 
 # Create your models here.
@@ -27,5 +28,5 @@ class Loan(models.Model):
 
 class LoanPayment(models.Model):
     amount = MoneyField(max_digits=19, decimal_places=4, default_currency='CNY')
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=datetime.date.today, blank=True)
     loan = models.ForeignKey(Loan, related_name='payments', on_delete=models.CASCADE)

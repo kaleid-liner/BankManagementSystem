@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+import datetime
 
 
 # Create your models here.
@@ -24,7 +24,7 @@ class StaffInfo(models.Model):
     name = models.CharField(max_length=64)
     phone_number = models.CharField(max_length=64)
     address = models.CharField(max_length=256)
-    date_joined = models.DateField(auto_now_add=True)
+    date_joined = models.DateField(default=datetime.date.today, blank=True)
     branch = models.ForeignKey(Branch, related_name='%(class)ss', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
