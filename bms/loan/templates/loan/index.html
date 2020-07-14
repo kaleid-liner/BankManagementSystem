@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Loan{% endblock %}
 
 {% block navbar %}
@@ -11,7 +13,40 @@
 {% endblock %}
 
 {% block content %}
-<h2>贷款记录</h2>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h2>统计</h2>
+  <div class="btn-toolbar">
+    <div class="dropdown">
+      <button class="btn btn-light dropdown-toggle" data-toggle="dropdown" type="button" id="typeDropdown">
+        <span id="typeDropdownText" data-value="amount">金额</span>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="typeDropdown" id="typeDropdownMenu">
+        <a class="dropdown-item" data-value="amount">金额</a>
+        <a class="dropdown-item" data-value="customer">顾客数</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="btn btn-light dropdown-toggle" data-toggle="dropdown" type="button" id="stepDropdown">
+        <span id="stepDropdownText" data-value="year">按年</span>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="stepDropdown" id="stepDropdownMenu">
+        <a class="dropdown-item" data-value="year">按年</a>
+        <a class="dropdown-item" data-value="season">按季度</a>
+        <a class="dropdown-item" data-value="month">按月</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-5" style="width: 100%;">
+  <canvas id="loanChart" data-url="{% url 'loan:chart' %}"></canvas>
+</div>
+
+<table class="table table-stripped table-sm" id="analyticsTable">
+</table>
+
+<h2 class="border-bottom pb-2 mt-5">贷款记录</h2>
 <table id="loanTable" class="table table-striped table-sm"
        data-toggle="table" data-search="true" data-pagination="true">
   <thead>
@@ -122,10 +157,77 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
 <script>
   $(document).on("click", ".open-delete-modal", function () {
     let url = $(this).data('url');
     $('#deleteForm').attr('action', url);
+  });
+
+  function draw() {
+    let step = $('#stepDropdownText').data('value');
+    let type = $('#typeDropdownText').data('value');
+
+    $.get('{% url "loan:chart" %}' + '?step=' + step + '&type=' + type, function(data) {
+      let ctx = $('#loanChart').get(0).getContext("2d");
+      new Chart(ctx, {
+        type: 'line', data: data
+      });
+
+      let data_json_list = [];
+      for (let dataset of data.datasets) {
+        let data_json = {
+          'branch': dataset['label'],
+        }
+        for (let i = 0; i < data.labels.length; i++) {
+          let label = data.labels[i];
+          data_json[label] = dataset.data[i];
+        }
+        data_json_list.push(data_json);
+      }
+
+      let columns = [{
+        field: 'branch',
+        title: '支行',
+      }];
+      for (let label of data.labels) {
+        columns.push({
+          field: label,
+          title: label,
+        })
+      }
+
+      console.log(data)
+
+      let analyticsTable = $('#analyticsTable');
+      analyticsTable.bootstrapTable('destroy');
+      analyticsTable.bootstrapTable({
+        data: data_json_list,
+        columns: columns
+      });
+    });
+  }
+
+  draw();
+
+  $('#stepDropdownMenu a').click(function() {
+    let stepDropdownText = $('#stepDropdownText');
+    stepDropdownText.text($(this).text());
+
+    let step = $(this).data('value');
+    stepDropdownText.data('value', step);
+
+    draw()
+  });
+
+  $('#typeDropdownMenu a').click(function() {
+    let typeDropdownText = $('#typeDropdownText');
+    typeDropdownText.text($(this).text());
+
+    let type = $(this).data('value');
+    typeDropdownText.data('value', type);
+
+    draw()
   });
 </script>
 {% endblock %}

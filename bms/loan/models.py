@@ -7,7 +7,7 @@ from customer.models import Customer
 # Create your models here.
 class Loan(models.Model):
     amount = MoneyField(max_digits=19, decimal_places=4, default_currency='CNY')
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, related_name='loans', on_delete=models.CASCADE)
     customers = models.ManyToManyField(Customer, related_name='loans')
 
     @property

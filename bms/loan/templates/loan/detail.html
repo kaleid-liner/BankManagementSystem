@@ -39,11 +39,12 @@
       <hr class="mb-5">
 
       <h2 class="mb-4">支付情况</h2>
-      <table id="loanPaymentsTable" class="table table-striped table-sm">
+      <table id="loanPaymentsTable" class="table table-striped table-sm"
+             data-toggle="table" data-pagination="true">
         <thead>
         <tr>
-          <th>金额</th>
-          <th>日期</th>
+          <th data-sortable="true">金额</th>
+          <th data-sortable="true">日期</th>
         </tr>
         </thead>
         <tbody>
@@ -59,14 +60,14 @@
 
     <div class="col-md-6">
       <h2>关联客户</h2>
-      <table id="customerTable" class="table table-striped table-sm">
+      <table id="customerTable" class="table table-striped table-sm" data-toggle="table">
         <thead>
         <tr>
-          <th>姓名</th>
-          <th>身份证号</th>
-          <th>电话</th>
-          <th>地址</th>
-          <th>联系人</th>
+          <th data-sortable="true">姓名</th>
+          <th data-sortable="true">身份证号</th>
+          <th data-sortable="true">电话</th>
+          <th data-sortable="true">地址</th>
+          <th data-sortable="true">联系人</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -101,7 +102,7 @@
           {% csrf_token %}
           {{ form.none_field_errors }}
           <div class="mb-3">
-            {{ form.amount.errors }}
+            {{ form.amount.errors }}>
             <label for="{{ form.amount.id_for_label }}">金额</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -121,10 +122,4 @@
 {% endblock %}
 
 {% block script %}
-<script>
-  $(document).ready(function () {
-    $('#loanPaymentsTable').DataTable({});
-    $('.dataTables_length').addClass('bs-select');
-  });
-</script>
 {% endblock %}
