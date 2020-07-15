@@ -14,3 +14,10 @@ class Customer(models.Model):
 
     def __str__(self):
         return '{}#{}'.format(self.name, self.pk)
+
+    @property
+    def status(self):
+        if self.savingaccounts.exists() or self.checkingaccounts.exists() or self.loans.exists():
+            return 'locked'
+        else:
+            return 'unlocked'

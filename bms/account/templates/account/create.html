@@ -15,7 +15,6 @@ KBMS | Add Account
       {% csrf_token %}
       <h4 class="mb-3">基本信息</h4>
       <div class="mb-3">
-        {{ form.balance.errors }}
         <label for="id_balance">余额</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -23,9 +22,9 @@ KBMS | Add Account
           </div>
           {{ form.balance }}
         </div>
+        {{ form.balance.errors }}
       </div>
       <div class="mb-3">
-        {{ form.branch.errors }}
         <label for="id_branch">支行</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -33,9 +32,9 @@ KBMS | Add Account
           </div>
           {{ form.branch }}
         </div>
+        {{ form.branch.errors }}
       </div>
       <div class="mb-4">
-        {{ form.manager.errors }}
         <label for="id_manager">经理</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -43,12 +42,12 @@ KBMS | Add Account
           </div>
           {{ form.manager }}
         </div>
+        {{ form.manager.errors }}
       </div>
       <hr class="mb-4">
       <h4 class="mb-3">账户额外信息</h4>
       {% if account_type == 'checking' %}
       <div class="mb-4">
-        {{ form.overdraft.errors }}
         <label for="id_overdraft">透支额</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -56,10 +55,10 @@ KBMS | Add Account
           </div>
           {{ form.overdraft }}
         </div>
+        {{ form.overdraft.errors }}
       </div>
       {% else %}
       <div class="mb-4">
-        {{ form.interest_rate.errors }}
         <label for="id_interest_rate">利率</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -67,6 +66,7 @@ KBMS | Add Account
           </div>
           {{ form.interest_rate }}
         </div>
+        {{ form.interest_rate.errors }}
       </div>
       {% endif %}
       <hr class="mb-4">

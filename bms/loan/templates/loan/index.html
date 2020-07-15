@@ -117,7 +117,6 @@
         <form action="{% url 'loan:index' %}" method="post" id="createLoanForm">
           {% csrf_token %}
           <div class="mb-3">
-            {{ form.amount.errors }}
             <label for="{{ form.amount.id_for_label }}">总额</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -125,10 +124,10 @@
               </div>
               {{ form.amount }}
             </div>
+            {{ form.amount.errors }}
           </div>
 
           <div class="mb-3">
-            {{ form.branch.errors }}
             <label for="{{ form.branch.id_for_label }}">支行</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -136,14 +135,15 @@
               </div>
               {{ form.branch }}
             </div>
+            {{ form.branch.errors }}
           </div>
 
           <div class="mb-3">
-            {{ form.customers.errors }}
             <label for="{{ form.customers.id_for_label }}">用户</label>
             <div class="input-group">
               {{ form.customers }}
             </div>
+            {{ form.customers.errors }}
           </div>
         </form>
 
@@ -164,6 +164,10 @@
     $('#deleteForm').attr('action', url);
   });
 
+  {% if form.errors %}
+  $('#createLoanModal').modal('show');
+  {% endif %}
+
   function draw() {
     let step = $('#stepDropdownText').data('value');
     let type = $('#typeDropdownText').data('value');
@@ -178,7 +182,7 @@
       for (let dataset of data.datasets) {
         let data_json = {
           'branch': dataset['label'],
-        }
+        };
         for (let i = 0; i < data.labels.length; i++) {
           let label = data.labels[i];
           data_json[label] = dataset.data[i];

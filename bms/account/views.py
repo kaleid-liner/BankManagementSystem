@@ -24,6 +24,7 @@ class AccountListView(generic.TemplateView):
 class BaseAccountCreateView(generic.CreateView):
     template_name = 'account/create.html'
     account_type = None
+    account_object = None
 
     def dispatch(self, request, *args, **kwargs):
         self.customer = Customer.objects.get(pk=self.kwargs['customer_id'])
@@ -38,6 +39,11 @@ class BaseAccountCreateView(generic.CreateView):
 
     def form_valid(self, form):
         customer = self.customer
+
+        if self.account_object.objects.filter(customer=customer, branch=form.instance.branch).exists():
+            form.add_error('branch', '该用户已经在此银行拥有一个同类账户')
+            return super().form_invalid(form)
+
         form.instance.customer = customer
         return super().form_valid(form)
 
@@ -47,11 +53,13 @@ class BaseAccountCreateView(generic.CreateView):
 
 class CheckingAccountCreateView(BaseAccountCreateView):
     account_type = 'checking'
+    account_object = SavingAccount
     form_class = CheckingAccountForm
 
 
 class SavingAccountCreateView(BaseAccountCreateView):
     account_type = 'saving'
+    account_object = SavingAccount
     form_class = SavingAccountForm
 
 
@@ -104,7 +112,7 @@ class SavingAccountChartView(BaseLineChartView):
             min_year = SavingAccount.objects.earliest('date_opened').date_opened.year
             max_year = SavingAccount.objects.latest('date_opened').date_opened.year
         except ObjectDoesNotExist:
-            min_year = max_year = 0
+            min_year = max_year = 2000
         self.years = list(range(min_year, max_year + 1))
 
         return super().dispatch(request, *args, **kwargs)

@@ -6,6 +6,7 @@ from .forms import LoanForm, LoanPaymentForm
 from chartjs.views.lines import BaseLineChartView
 from branch.models import Branch
 from django.db.models import Sum
+from django.http import HttpResponseBadRequest
 
 
 # Create your views here.
@@ -28,6 +29,12 @@ class LoanDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse('loan:index')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.status == 'half':
+            return HttpResponseBadRequest('你不能删除发放中的贷款')
+        return super().delete(request, *args, **kwargs)
 
 
 class LoanPaymentCreateView(generic.CreateView):
@@ -53,6 +60,11 @@ class LoanDetailPayView(generic.CreateView):
 
     def form_valid(self, form):
         loan = self.loan
+
+        if loan.remained < form.instance.amount:
+            form.add_error('amount', '发放量超过了贷款余额 ' + str(loan.remained))
+            return super().form_invalid(form)
+
         form.instance.loan = loan
         return super().form_valid(form)
 
@@ -71,7 +83,7 @@ class LoanChartView(BaseLineChartView):
             min_year = LoanPayment.objects.earliest('date').date.year
             max_year = LoanPayment.objects.latest('date').date.year
         except:
-            min_year = max_year = 0
+            min_year = max_year = 2000
         self.years = list(range(min_year, max_year + 1))
 
         return super().dispatch(request, *args, **kwargs)

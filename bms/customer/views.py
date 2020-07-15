@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Customer
 from django.urls import reverse_lazy
-from account.models import SavingAccount, CheckingAccount
+from django.http import HttpResponseBadRequest
 
 
 # Create your views here.
@@ -31,6 +31,12 @@ class CustomerDeleteView(generic.DeleteView):
     model = Customer
     template_name = 'customer/delete.html'
     success_url = reverse_lazy('customer:index')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.status == 'locked':
+            return HttpResponseBadRequest('你不能删除此账户')
+        return super().delete(request, *args, **kwargs)
 
 
 class CustomerUpdateView(generic.UpdateView):

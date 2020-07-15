@@ -32,10 +32,12 @@ KBMS | Customer
         <td>{{ customer.phone_number }}</td>
         <td>{{ customer.address }}</td>
         <td>{{ customer.contact_name }}</td>
-        <td><a href="{% url 'customer:update' customer.pk %}"><i class="fas fa-info-circle"></i></a> |
-            <a class="open-modal" data-target="#deleteModal" data-toggle="modal"
-               data-url="{% url 'customer:delete' customer.pk %}"
-               data-customer_name="{{ customer.name }}"><i class="fas fa-trash"></i></a></td>
+        <td><a href="{% url 'customer:update' customer.pk %}"><i class="fas fa-info-circle"></i></a>
+            {% if customer.status == 'unlocked' %}
+            | <a class="open-modal" data-target="#deleteModal" data-toggle="modal"
+                 data-url="{% url 'customer:delete' customer.pk %}"
+                 data-customer_name="{{ customer.name }}"><i class="fas fa-trash"></i></a></td>
+            {% endif %}
     </tr>
     {% endfor %}
     </tbody>
